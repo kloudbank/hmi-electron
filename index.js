@@ -1,9 +1,9 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, screen } = require('electron')
 
 const createWindow=()=>{
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
     const win = new BrowserWindow({
-        width: 800,
-        height: 600
+        width,height
       })
       win.loadURL("http://127.0.0.1:3000")
 }
