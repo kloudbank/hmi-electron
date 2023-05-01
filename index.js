@@ -5,7 +5,7 @@ const createWindow=()=>{
         width: 800,
         height: 600
       })
-      win.loadURL("https://www.naver.com")
+      win.loadURL("http://127.0.0.1:3000")
 }
 
 app.whenReady().then(() => {
