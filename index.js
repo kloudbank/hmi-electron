@@ -8,6 +8,13 @@ const path = require('path');
 const packageJsonPath = path.join(__dirname, 'package.json');
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
+let HMI_WEB_URL = 'http://127.0.0.1:3000';
+let EDGE_APP_URL = 'http://127.0.0.1:8000';
+if (1 == 1) {
+  HMI_WEB_URL = 'http://ec2-54-180-192-203.ap-northeast-2.compute.amazonaws.com:30030';
+  EDGE_APP_URL = 'http://ec2-54-180-192-203.ap-northeast-2.compute.amazonaws.com:30008';;
+}
+
 const createBrowser = () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize
   const win = new BrowserWindow({
@@ -23,12 +30,15 @@ const createBrowser = () => {
 
 const createWindow = () => {
   const win = createBrowser();
-  win.loadURL("http://127.0.0.1:3000")
+  // win.loadURL("http://127.0.0.1:3000")
   // win.loadURL("http://hmi-web.edge.kubepia.net")
-  // win.loadURL(process.env.HMI_WEB_URL)
+  win.loadURL(HMI_WEB_URL)
 
   autoUpdater.logger = log;
   log.info('App starting...');
+
+  log.info(HMI_WEB_URL);
+  log.info(EDGE_APP_URL);
 }
 
 // force packaged true
@@ -42,7 +52,7 @@ app.whenReady().then(() => {
   createWindow()
 })
 
-autoUpdater.setFeedURL('http://127.0.0.1:3000/api/edge/version');
+autoUpdater.setFeedURL(EDGE_APP_URL + '/edge/version');
 autoUpdater.autoDownload = false;
 
 setInterval(() => {
